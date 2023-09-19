@@ -32,16 +32,16 @@ export default function ToDo() {
       <Link to="/">home</Link>
       <h1>Lista de Atividades</h1>
       <form onSubmit={salvar}>
-        <input type="text" value={atividade} onChange={(e) => { setAtividade(e.target.value) }} />
+        <input type="text" placeholder="Vida" value={atividade} onChange={(e) => { setAtividade(e.target.value) }} />
+        <input type="text" placeholder="Ataque" />
+        <input type="text" placeholder="Defesa" />
+        <input type="text" placeholder="Proficiencia Elemental" />
+        <input type="text" placeholder="Taxa Critica" />
+        <input type="text" placeholder="Dano Critico" />
+        <input type="text" placeholder="Recarga de Energia" />
         <button>ADICIONAR</button>
       </form>
-      <input type="text" placeholder="Vida" />
-      <input type="text" placeholder="Ataque" />
-      <input type="text" placeholder="Defesa" />
-      <input type="text" placeholder="Proficiencia Elemental" />
-      <input type="text" placeholder="Taxa Critica" />
-      <input type="text" placeholder="Dano Critico" />
-      <input type="text" placeholder="Recarga de Energia" />
+      
       {lista.map((ativ) =>
         <ul key={ativ.id}>
           <li>
