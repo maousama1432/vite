@@ -1,46 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 export default function ToDo() {
-    const [atividade, setAtividade] = useState("");
-    const [lista, setLista] = useState([]);
-    const [id, setId] = useState(1);
+    const [list, setList] = useState(JSON.parse(localStorage.getItem("List")) || []);
+    const [activity, setActivity] = useState("");
+    const [id, setId] = useState(list[list.length - 1]?.id + 1 || 1);
 
-    const salvar = (e) => {
+    useEffect(() => { localStorage.setItem("List", JSON.stringify(list)) }, [list]);
+
+    const save = (e) => {
         e.preventDefault();
-        setLista([...lista, {
-            atividade: atividade,
-            id: id
-        }]);
+        setList([...list, { activity: activity, id: id }]);
         setId(id + 1);
-        setAtividade("");
+        setActivity("");
     };
-    const remover = (id) => {
-        /*setLista(lista.filter((ativ) => (ativ.id !== id ? lista : null)));*/
-        const auxLista = [];
-        lista.map((lista) => {
-            if (lista.id !== id) {
-                auxLista.push(lista);
+    const remove = (id) => {
+        const auxList = [];
+        list.map((item) => {
+            if (item.id !== id) {
+                auxList.push(item);
             }
         });
-        setLista(auxLista);
+        setList(auxList);
     }
     return (
         <div class="container">
             <Link to="/">home</Link>
-            <h1>Lista de Atividades</h1>
-            <form onSubmit={salvar}>
+            <h1>List of Activities</h1>
+            <form onSubmit={save}>
                 <input type="text"
-                    value={atividade}
-                    onChange={(e) => { setAtividade(e.target.value) }} />
-                <button>ADICIONAR</button>
+                    value={activity}
+                    onChange={(e) => { setActivity(e.target.value) }} />
+                <button>ADD</button>
             </form>
-            {lista.map((ativ) =>
-                <ul key={ativ.id}>
+            {list.map((active) =>
+                <ul key={active.id}>
                     <li>
-                        <p>{ativ.atividade}</p>
-                        <button onClick={() => remover(ativ.id)}>Remover</button>
+                        <p>{active.activity}</p>
+                        <button onClick={() => remove(active.id)}>Remove</button>
                     </li>
                 </ul>
             )}
